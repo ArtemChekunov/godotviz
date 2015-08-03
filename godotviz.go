@@ -4,19 +4,32 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"os/exec"
 )
 
 func main() {
 	fileFormat := os.Args[1]
-	fmt.Println(fileFormat)
-	os.Exit(0)
+	stdinContent := stdinToStr()
 
-	result := DotRender("graph {a -- b a -- b  b -- a }", "png")
-	fmt.Print(result.String())
+	// result := DotRender("graph {a -- b a -- b  b -- a }", "png")
+	result := DotRender(stdinContent, fileFormat)
+
+	os.Stdout.Write(result.Bytes())
 }
 
+func stdinToStr() string {
+	data, err := ioutil.ReadAll(os.Stdin)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	return string(data)
+}
+
+// DotRender - Method wrapper around DOT tool
 func DotRender(inputString string, outputType string) bytes.Buffer {
 	bufferIn := bytes.NewBufferString(inputString)
 	var bufferOut bytes.Buffer
@@ -30,5 +43,4 @@ func DotRender(inputString string, outputType string) bytes.Buffer {
 	cmd.Run()
 
 	return bufferOut
-
 }
