@@ -9,6 +9,9 @@ import (
 	"os/exec"
 )
 
+// main - implements simple processing DOT language from stdin to stdout
+// Example:
+// echo 'graph {a -- b a -- b  b -- c }' | go run godotviz.go png > ~/graph.png
 func main() {
 	fileFormat := os.Args[1]
 	stdinContent := stdinToStr()
