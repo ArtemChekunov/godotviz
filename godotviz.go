@@ -9,6 +9,10 @@ import (
 )
 
 func main() {
+	fileFormat := os.Args[1]
+	fmt.Println(fileFormat)
+	os.Exit(0)
+
 	result := DotRender("graph {a -- b a -- b  b -- a }", "png")
 	fmt.Print(result.String())
 }
