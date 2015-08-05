@@ -19,7 +19,7 @@ func main() {
 	// result := DotRender("graph {a -- b a -- b  b -- a }", "png")
 	result := DotRender(stdinContent, fileFormat)
 
-	os.Stdout.Write(result.Bytes())
+	os.Stdout.Write(result)
 }
 
 func stdinToStr() string {
@@ -33,7 +33,7 @@ func stdinToStr() string {
 }
 
 // DotRender - Method wrapper around DOT tool
-func DotRender(inputString string, outputType string) bytes.Buffer {
+func DotRender(inputString string, outputType string) []byte {
 	bufferIn := bytes.NewBufferString(inputString)
 	var bufferOut bytes.Buffer
 
@@ -45,5 +45,5 @@ func DotRender(inputString string, outputType string) bytes.Buffer {
 
 	cmd.Run()
 
-	return bufferOut
+	return bufferOut.Bytes()
 }
