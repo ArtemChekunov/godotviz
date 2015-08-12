@@ -19,7 +19,6 @@ func DotRender(inputString string, outputType string) (graph []byte, err error) 
 	cmd.Stdout = bufio.NewWriter(&bufferOut)
 	cmd.Stderr = bufio.NewWriter(&bufferErr)
 
-	// cmd.Run()
 	cmd.Start()
 	cmdErr := cmd.Wait()
 	if cmdErr != nil {
