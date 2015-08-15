@@ -8,14 +8,13 @@ import (
 )
 
 // DotRender - Method wrapper around DOT tool
-func DotRender(inputString string, outputType string) (graph []byte, err error) {
-	bufferIn := bytes.NewBufferString(inputString)
+func DotRender(inputBytes []byte, outputType string) (graph []byte, err error) {
 	var bufferOut bytes.Buffer
 	var bufferErr bytes.Buffer
 
 	cmd := exec.Command("dot", "-T"+outputType)
 
-	cmd.Stdin = bufferIn
+	cmd.Stdin = bufio.NewReader(bytes.NewBuffer(inputBytes))
 	cmd.Stdout = bufio.NewWriter(&bufferOut)
 	cmd.Stderr = bufio.NewWriter(&bufferErr)
 

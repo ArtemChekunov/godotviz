@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 
 	"github.com/sc0rp1us/godotviz"
@@ -10,23 +10,18 @@ import (
 
 // main - implements simple processing DOT language from stdin to stdout
 // Example:
-// echo 'graph {a -- b a -- b  b -- c }' | go run godotviz.go png > ~/graph.png
+// echo 'graph {a -- b a -- b  b -- c }' | go run dotpipeviz.go png > ~/graph.png
 func main() {
 	fileFormat := os.Args[1]
-	stdinContent := stdinToStr()
 
-	// result := DotRender("graph {a -- b a -- b  b -- a }", "png")
-	result := godotviz.DotRender(stdinContent, fileFormat)
-
-	os.Stdout.Write(result)
-}
-
-func stdinToStr() string {
 	data, err := ioutil.ReadAll(os.Stdin)
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		log.Fatal(err)
 	}
 
-	return string(data)
+	result, err := godotviz.DotRender(data, fileFormat)
+	if err != nil {
+		log.Fatal(err)
+	}
+	os.Stdout.Write(result)
 }
